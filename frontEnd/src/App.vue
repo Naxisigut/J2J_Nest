@@ -8,7 +8,7 @@
 import IndexPage from './components/indexComponents/IndexPage.vue';
 export default {
   name: 'App',
-  components: {IndexPage },
+  components: {IndexPage},
 };
 </script>
 

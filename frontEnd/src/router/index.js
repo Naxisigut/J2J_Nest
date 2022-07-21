@@ -1,7 +1,7 @@
 import VueRouter from 'vue-router';
 
 import AboutPage from '../pages/AboutPage.vue';
-import ArticlePage from '../pages/ArticlePage.vue';
+import ArticleListPage from '../pages/ArticleListPage.vue';
 import IntroductionPage from '../pages/IntroductionPage.vue';
 import MomentPage from '../pages/MomentPage.vue';
 import RecordPage from '../pages/RecordPage.vue';
@@ -12,7 +12,7 @@ const Router = new VueRouter({
     {
       name:'article',
       path:'/article',
-      component:ArticlePage,
+      component:ArticleListPage,
     },
     {
       name:'about',
