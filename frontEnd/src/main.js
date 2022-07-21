@@ -15,16 +15,29 @@ Vue.use(VueRouter)
 //引入路由器
 import router from './router/index';
 
-//引入md-editor
-import VueMarkdownEditor from '@kangc/v-md-editor';
-import '@kangc/v-md-editor/lib/style/base-editor.css';
-import vuepressTheme from '@kangc/v-md-editor/lib/theme/vuepress.js';
-VueMarkdownEditor.use(vuepressTheme);
-Vue.use(VueMarkdownEditor);
+//引入md-editor 预览组件
+import VMdPreview from '@kangc/v-md-editor/lib/preview';
+import '@kangc/v-md-editor/lib/style/preview.css';
+//引入md-editor主题
+import githubTheme from '@kangc/v-md-editor/lib/theme/github';
+import '@kangc/v-md-editor/lib/theme/style/github.css';
+//引入代码高亮
+import hljs from 'highlight.js';
+VMdPreview.use(githubTheme,{
+  Hljs: hljs,
+});
+// VMdPreview.use(vuepressTheme);
+Vue.use(VMdPreview);
+
+
 
 Vue.config.productionTip = false
 
 new Vue({
   render: h => h(App),
-  router
+  router,
+  beforeCreate(){
+    //事件总线
+    Vue.prototype.$bus = this
+  }
 }).$mount('#app')

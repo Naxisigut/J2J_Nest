@@ -1,6 +1,6 @@
 <template>
   <div class="index">
-    <!-- 背景图片区 -->
+    <!-- 背景图片区 在非首页不显示-->
     <div
       class="indexHeader"
       @mousemove="handleMove"
@@ -26,15 +26,7 @@
         </el-card>
       </div>
     </div>
-    <!-- 路由组件区 -->
-    <div class="display">
-      <!-- 左侧导航栏 首页不显示 -->
-      <div class="nav" v-if="$route.name">
-        <global-nav :links="links"></global-nav>
-      </div>
-      <!-- 路由组件 -->
-      <router-view></router-view>
-    </div>
+    
     <!-- 回到顶部按钮 -->
     <el-backtop :bottom="100">
       <div
@@ -58,9 +50,7 @@
 </template>
 
 <script>
-import GlobalNav from '../publicComponents/GlobalNav.vue';
 export default {
-  components: { GlobalNav },
   data() {
     return {
       headerWidth: 0,
@@ -74,8 +64,8 @@ export default {
         },
         {
           title: '文章归档',
-          routerName: 'article',
-          path: '/article',
+          routerName: 'articleList',
+          path: '/articleList',
         },
         {
           title: '灵光小记',
@@ -106,12 +96,15 @@ export default {
       this.percentX = 45 + (10 * e.pageX) / document.body.clientWidth;
       this.percentY = 45 + (10 * e.pageY) / document.body.clientHeight;
     },
-    click() {
-      console.log(this);
-    },
+    test(){
+      console.log('test');
+      this.$router.push({name:'test'})
+    }
   },
   mounted() {
     // document.body.addEventListener('click', ()=>console.log(this.$route))
+    // this.$router.push({name: 'about'})
+    this.$bus.$on('test', this.test)
   },
 };
 </script>
@@ -124,7 +117,7 @@ export default {
   display: flex;
   width: 100vw;
   height: 100vh;
-  background: url(../../assets/indexImg.jpg) no-repeat 50% 50%/1920px 1080px;
+  background: url(../assets/indexImg.jpg) no-repeat 50% 50%/1920px 1080px;
   .welcome {
     margin: auto;
     text-align: center;
@@ -158,14 +151,6 @@ export default {
       width: 400px;
       min-height: 400px;
     }
-  }
-}
-.display {
-  .nav {
-    position: absolute;
-    top: 50%;
-    left: 0%;
-    transform: translate(0%, -50%);
   }
 }
 </style>

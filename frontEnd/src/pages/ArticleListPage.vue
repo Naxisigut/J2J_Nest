@@ -25,9 +25,15 @@
       <!-- 文章时间线视图 -->
       <div class="articleTimeLine" v-if="view == 'timeLine'">
         <el-timeline>
-          <el-timeline-item v-for="item in artList" :key="item.id" :timestamp="item.time" placement="top">
+          <el-timeline-item
+            v-for="item in artList"
+            :key="item.id"
+            :timestamp="item.time"
+            placement="top"
+            
+          >
             <el-card>
-              <div class="cardBox">
+              <div class="cardBox"  @click="intoArticle">
                 <img :src="item.img" alt="" />
                 <div class="titleBox">
                   <h4>{{ item.title }}</h4>
@@ -82,6 +88,12 @@ export default {
       //数据源 all全部文章 search搜索结果
       dataSrc: 'all',
     };
+  },
+  methods: {
+    intoArticle() {
+      console.log(1);
+      this.$router.push({name: 'article'})
+    },
   },
 };
 </script>

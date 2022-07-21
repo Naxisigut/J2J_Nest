@@ -6,6 +6,7 @@
     </el-radio-group> -->
     <el-menu default-active="1-4-1" class="el-menu-vertical-demo" :collapse="isCollapse" router>
       <el-menu-item v-for="(item, index) in links" :key="index" :index="item.path">
+      <!-- index设置为path，可以自动导航至相应路由 -->
         <i :class="navIcons[index]"></i>
         <span slot="title">{{ item.title }}</span>
       </el-menu-item>
