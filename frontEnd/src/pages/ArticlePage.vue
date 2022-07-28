@@ -4,7 +4,7 @@
       <div class="pageContainer">
         <page-header :title="'Article'"></page-header>
         <!-- 文章标题区 -->
-        <h1 class="artTitle">标题</h1>
+        <h1 class="artTitle">{{title}}</h1>
         <!-- md预览区 -->
         <div class="md-Pre">
           <template>
@@ -18,18 +18,39 @@
 
 <script>
 import PageHeader from '@/components/publicComponents/PageHeader.vue';
-import md from '../../Day01_webpack.md';
 
 export default {
   components: { PageHeader },
   data() {
     return {
-      markdown: md,
+      markdown: '',
+      articleId:this.$route.query.articleId,
+      title:''
     };
   },
-  // created(){
-  //   console.log(this.markdown);
-  // }
+  created() {
+    //根据文章id发送请求，返回一个静态资源的路径
+    this.$axios({
+      url: '/article',
+      params:{
+        articleId:this.articleId
+      }
+    })
+      .then(({ data }) => {
+        //请求资源地址
+        this.title = data.data.title
+        return 'assets/' + data.data.file.split('assets/')[1];
+      })
+      .then((path) => {
+        //根据上次请求返回的路径请求资源
+        return this.$axios({
+          url: path,
+        });
+      })
+      .then(({data})=>{
+        this.markdown = data
+      });
+  },
 };
 </script>
 
@@ -40,9 +61,9 @@ export default {
   .pageContainer {
     width: 1000px;
     margin: auto;
-    .artTitle{
+    .artTitle {
       text-align: center;
-      font-size: 26px;
+      font-size: 30px;
     }
   }
   // .md-Pre{

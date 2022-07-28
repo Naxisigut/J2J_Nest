@@ -1,10 +1,12 @@
 <template>
   <div id="app">
+    <keep-alive>
     <router-view></router-view>
+    </keep-alive>
     <!-- 路由组件区 -->
     <div class="display">
       <!-- 左侧导航栏 首页不显示 -->
-      <div class="nav" v-if="$route.name">
+      <div class="navCompo" v-if="$route.name">
         <global-nav :links="links"></global-nav>
       </div>
     </div>
@@ -91,7 +93,7 @@ a {
   line-height: 160px;
 }
 .display {
-  .nav {
+  .navCompo {
     position: absolute;
     top: 50%;
     left: 0%;

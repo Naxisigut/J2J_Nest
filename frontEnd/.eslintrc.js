@@ -17,5 +17,8 @@ module.exports = {
     -- never：不需要使用 */
     semi:[0,'always'],
     "no-unused-vars":[0,'never'],
+    "vue/no-unused-components":[0,'never'],
+    "no-debugger":"off",
+    "no-console":"off"
   },
 };

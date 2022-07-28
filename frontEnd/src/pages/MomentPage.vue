@@ -6,57 +6,21 @@
       <div class="publishBox">
         <el-input type="textarea" :autosize="{ minRows: 4, maxRows: 10 }" placeholder="请输入内容" v-model="textarea">
         </el-input>
-      </div>
-      <div class="btnBox">
-        <el-button size="small" icon="el-icon-search" round>搜索</el-button>
-        <el-button size="small" icon="el-icon-check" round>发布</el-button>
+        <div class="btnBox">
+          <el-button size="small" icon="el-icon-search" round>搜索</el-button>
+          <el-button size="small" icon="el-icon-check" round>发布</el-button>
+        </div>
       </div>
       <!-- 查看区 -->
       <div class="momentsBox">
-        <div class="cardBox">
-          <el-card :body-style="{ width: '300px', padding: '0px' }">
-            <img
-              src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-              class="image"
-            />
-            <div style="padding: 14px">
-              <span>好吃的汉堡</span>
-              <div class="bottom clearfix">
-                <time class="time">{{ currentDate }}</time>
-                <el-button type="text" class="button">操作按钮</el-button>
-              </div>
-            </div>
-          </el-card>
+        <div class="leftBox columnBox" ref="left">
+          <moment-card v-for="moment in leftMomentList" :key="moment.id" :moment="moment"></moment-card>
         </div>
-        <div class="cardBox">
-          <el-card :body-style="{ width: '300px', padding: '0px' }">
-            <img
-              src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-              class="image"
-            />
-            <div style="padding: 14px">
-              <span>好吃的汉堡</span>
-              <div class="bottom clearfix">
-                <time class="time">{{ currentDate }}</time>
-                <el-button type="text" class="button">操作按钮</el-button>
-              </div>
-            </div>
-          </el-card>
+        <div class="midBox columnBox" ref="mid">
+          <moment-card v-for="moment in midMomentList" :key="moment.id" :moment="moment"></moment-card>
         </div>
-        <div class="cardBox">
-          <el-card :body-style="{ width: '300px', padding: '0px' }">
-            <img
-              src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-              class="image"
-            />
-            <div style="padding: 14px">
-              <span>好吃的汉堡</span>
-              <div class="bottom clearfix">
-                <time class="time">{{ currentDate }}</time>
-                <el-button type="text" class="button">操作按钮</el-button>
-              </div>
-            </div>
-          </el-card>
+        <div class="rightBox columnBox" ref="right">
+          <moment-card v-for="moment in rightMomentList" :key="moment.id" :moment="moment"></moment-card>
         </div>
       </div>
     </div>
@@ -65,12 +29,62 @@
 
 <script>
 import PageHeader from '@/components/publicComponents/PageHeader.vue';
+import MomentCard from '@/components/momentComponents/MomentCard.vue';
 export default {
-  components: { PageHeader },
+  components: { PageHeader, MomentCard },
   data() {
     return {
       textarea: '',
+      momentListGetted: [],
+      leftMomentList: [],
+      midMomentList: [],
+      rightMomentList: [],
+      limit: 10,
+      currPage: 1,
+      renderIndex: -1,
+      // theThreeList:[this.$refs.left]
     };
+  },
+  computed: {
+    currOffset() {
+      return this.limit * (this.currPage - 1);
+    },
+  },
+  watch: {
+    momentListGetted() {
+      //每当接收到新数据，把渲染序号重置为0
+      this.renderIndex = 0;
+    },
+    renderIndex(val) {
+      if (!this.momentListGetted) return;
+      //此时渲染完毕
+      if (this.renderIndex >= this.momentListGetted.length) return;
+
+      // 获得最短的列的索引
+      let index = this.$utils.returnMinIndex([
+        this.$refs.left.clientHeight,
+        this.$refs.mid.clientHeight,
+        this.$refs.right.clientHeight,
+      ]);
+      // 将data push到最短的列里面
+      [this.leftMomentList, this.midMomentList, this.rightMomentList][index].push(
+        this.momentListGetted[this.renderIndex]
+      );
+    },
+  },
+  mounted() {
+    this.$axios({
+      url: '/moments',
+      params: { limit: this.limit, offset: this.currOffset },
+    }).then(({ data }) => {
+      // console.log(data);
+      this.momentListGetted = data.data;
+    });
+  },
+  updated() {
+    // console.log([this.$refs.left.clientHeight, this.$refs.mid.clientHeight, this.$refs.right.clientHeight]);
+    //一次渲染一条数据，增加索引，直到最大索引
+    if (this.renderIndex < this.momentListGetted.length) this.renderIndex++;
   },
 };
 </script>
@@ -80,7 +94,7 @@ export default {
   display: flex;
   .pageContainer {
     margin: auto;
-    width: 930px;
+    width: 1000px;
     // 按钮样式
     .btnBox {
       margin: 20px 0;
@@ -98,35 +112,11 @@ export default {
     .momentsBox {
       display: flex;
       justify-content: space-between;
-      .cardBox {
-        // margin: 0 5px;
-        //卡片样式
-        .el-card {
-          .time {
-            font-size: 13px;
-            color: #999;
-          }
-          .bottom {
-            margin-top: 13px;
-            line-height: 12px;
-          }
-          .button {
-            padding: 0;
-            float: right;
-          }
-          .image {
-            width: 100%;
-            display: block;
-          }
-          .clearfix:before,
-          .clearfix:after {
-            display: table;
-            content: '';
-          }
-          .clearfix:after {
-            clear: both;
-          }
-        }
+      flex-wrap: wrap;
+      align-items: flex-start;
+      .columnBox {
+        width: 33%;
+        min-height: 200px;
       }
     }
   }
