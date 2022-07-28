@@ -3,8 +3,8 @@ const cors = require('cors');
 
 // const userRouter = require('./router/user') //登录注册路由
 // const userInfoRouter = require('./router/userInfo') //用户中心路由
-// const artCateRouter = require('./router/artcate') //文章分类路由
-// const articleRouter = require('./router/article') //文章分类路由
+const momentRouter = require('./routers/momentRouter') //moments路由
+const articleRouter = require('./routers/articlesRouter') //article路由
 
 // const joi = require('joi');
 // const { expressjwt } = require('express-j  wt');
@@ -23,9 +23,10 @@ app.use(function (req, res, next) {
 });
 app.use(cors());
 // 托管静态资源文件
-// app.use('/uploads', express.static('./uploads'))
+app.use('/assets', express.static('./assets'))
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+
 
 
 
@@ -34,7 +35,8 @@ app.use(express.json());
 // app.use('/api', userRouter);
 // app.use('/my', userInfoRouter);
 // app.use('/my/articate', artCateRouter);
-// app.use('/my/article', articleRouter);
+app.use('/article', articleRouter);
+app.use('/moments', momentRouter);
 
 
 app.use((err, req, res, next) => {
@@ -43,4 +45,4 @@ app.use((err, req, res, next) => {
   res.cc(err.message)
 });
 
-app.listen(80, () => console.log('app is listening'));
+app.listen(8088, () => console.log('app is listening'));
