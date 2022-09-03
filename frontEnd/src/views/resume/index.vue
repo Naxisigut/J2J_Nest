@@ -7,8 +7,9 @@
 </template>
 
 <script>
-import PageHeader from '@/components/publicComponents/PageHeader.vue';
+import PageHeader from "@/components/PageHeader.vue";
 export default {
+  name: "ResumeIndex",
   components: { PageHeader },
 };
 </script>

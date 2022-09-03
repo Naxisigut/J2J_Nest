@@ -1,51 +1,44 @@
-import VueRouter from 'vue-router';
-
-import IndexPage from '../pages/IndexPage.vue';
-import AboutPage from '../pages/AboutPage.vue';
-import ArticleListPage from '../pages/ArticleListPage.vue';
-import IntroductionPage from '../pages/IntroductionPage.vue';
-import MomentPage from '../pages/MomentPage.vue';
-import RecordPage from '../pages/RecordPage.vue';
-import ArticlePage from '../pages/ArticlePage.vue';
-
+import VueRouter from "vue-router";
+import Vue from "vue";
+Vue.use(VueRouter);
 
 const Router = new VueRouter({
-  routes:[
+  routes: [
     {
-      path:'/',
-      component:IndexPage
+      path: "/",
+      component: () => import("@/views/index"),
     },
     {
-      name:'article',
-      path:'/article',
-      component:ArticlePage
+      name: "article",
+      path: "/article",
+      component: () => import("@/views/article"),
     },
     {
-      name:'articleList',
-      path:'/articleList',
-      component:ArticleListPage,
+      name: "articleList",
+      path: "/articleList",
+      component: () => import("@/views/articleList"),
     },
     {
-      name:'about',
-      path:'/about',
-      component:AboutPage,
+      name: "about",
+      path: "/about",
+      component: () => import("@/views/about"),
     },
     {
-      name: 'intro',
-      path:'/intro',
-      component:IntroductionPage,
+      name: "intro",
+      path: "/intro",
+      component: () => import("@/views/resume"),
     },
     {
-      name:'moment',
-      path:'/moment',
-      component:MomentPage,
+      name: "moment",
+      path: "/moment",
+      component: () => import("@/views/moment"),
     },
     {
-      name:'record',
-      path:'/record',
-      component:RecordPage,
+      name: "record",
+      path: "/record",
+      component: () => import("@/views/record"),
     },
-  ]
-})
+  ],
+});
 
-export default Router
+export default Router;

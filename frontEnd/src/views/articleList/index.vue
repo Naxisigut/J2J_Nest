@@ -6,10 +6,16 @@
       <div class="funcBox">
         <!-- 数据源切换 -->
         <div class="srcChange">
-          <span @click="dataSrc = 'all'"><a href="javascript:;" :class="{ active: dataSrc == 'all' }">全部</a></span>
+          <span @click="dataSrc = 'all'"
+            ><a href="javascript:;" :class="{ active: dataSrc == 'all' }"
+              >全部</a
+            ></span
+          >
           <el-divider direction="vertical"></el-divider>
           <span @click="dataSrc = 'search'"
-            ><a href="javascript:;" :class="{ active: dataSrc == 'search' }">搜索结果</a></span
+            ><a href="javascript:;" :class="{ active: dataSrc == 'search' }"
+              >搜索结果</a
+            ></span
           >
         </div>
         <!-- 搜索框 -->
@@ -17,8 +23,19 @@
         <!-- 视图切换 -->
         <div class="viewChange">
           <el-button-group>
-            <el-button size="mini" icon="el-icon-time" round @click="view = 'TimeLineView'" autofocus></el-button>
-            <el-button size="mini" icon="el-icon-menu" round @click="view = 'CateListView'"></el-button>
+            <el-button
+              size="mini"
+              icon="el-icon-time"
+              round
+              @click="view = 'TimeLineView'"
+              autofocus
+            ></el-button>
+            <el-button
+              size="mini"
+              icon="el-icon-menu"
+              round
+              @click="view = 'CateListView'"
+            ></el-button>
           </el-button-group>
         </div>
       </div>
@@ -29,43 +46,43 @@
 </template>
 
 <script>
-import PageHeader from '@/components/publicComponents/PageHeader.vue';
-import SearchBox from '@/components/publicComponents/searchBox.vue';
-import TimeLineView from '@/components/articleListComponents/TimeLineView.vue';
-import CateListView from '@/components/articleListComponents/CateListView.vue';
+import PageHeader from "@/components/PageHeader.vue";
+import SearchBox from "@/components/searchBox.vue";
+import TimeLineView from "./components/TimeLineView";
+import CateListView from "./components/CateListView";
+import { getArtListAPI } from "@/api/article";
 
 export default {
+  name: "ArtList",
   components: { PageHeader, SearchBox, TimeLineView, CateListView },
   data() {
     return {
       artList: [],
       //视图切换 TimeLineView时间线组件 sortList分类列表
-      view: 'TimeLineView',
+      view: "TimeLineView",
       //数据源切换 all全部文章 search搜索结果
-      dataSrc: 'all',
+      dataSrc: "all",
       dotColor: [],
     };
   },
   methods: {
     intoArticle(articleId) {
       this.$router.push({
-        name: 'article',
+        name: "article",
         query: {
           articleId,
         },
       });
     },
+    async getArtList() {
+      this.artList = await getArtListAPI();
+    },
   },
-
   created() {
-    this.$axios({
-      url: '/article/list',
-    }).then(({ data }) => {
-      this.artList = data.data;
-    });
+    this.getArtList();
   },
   mounted() {
-    this.$bus.$on('intoArticle', this.intoArticle)
+    this.$bus.$on("intoArticle", this.intoArticle);
   },
 };
 </script>

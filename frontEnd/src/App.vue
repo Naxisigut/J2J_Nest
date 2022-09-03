@@ -1,8 +1,9 @@
 <template>
   <div id="app">
     <keep-alive>
-    <router-view></router-view>
+      <router-view></router-view>
     </keep-alive>
+
     <!-- 路由组件区 -->
     <div class="display">
       <!-- 左侧导航栏 首页不显示 -->
@@ -14,43 +15,43 @@
 </template>
 
 <script>
-import GlobalNav from './components/publicComponents/GlobalNav.vue';
+import GlobalNav from "@/components/GlobalNav.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: { GlobalNav },
   data() {
     return {
       links: [
         {
-          title: '首页',
-          routerName: 'index',
-          path: '/',
+          title: "首页",
+          routerName: "index",
+          path: "/",
         },
         {
-          title: '文章归档',
-          routerName: 'articleList',
-          path: '/articleList',
+          title: "文章归档",
+          routerName: "articleList",
+          path: "/articleList",
         },
         {
-          title: '灵光小记',
-          routerName: 'moment',
-          path: '/moment',
+          title: "灵光小记",
+          routerName: "moment",
+          path: "/moment",
         },
         {
-          title: '我的生活',
-          routerName: 'record',
-          path: '/record',
+          title: "我的生活",
+          routerName: "record",
+          path: "/record",
         },
         {
-          title: '个人简历',
-          routerName: 'intro',
-          path: '/intro',
+          title: "个人简历",
+          routerName: "intro",
+          path: "/intro",
         },
         {
-          title: '关于本站',
-          routerName: 'about',
-          path: '/about',
+          title: "关于本站",
+          routerName: "about",
+          path: "/about",
         },
       ],
     };

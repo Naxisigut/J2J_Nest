@@ -7,7 +7,7 @@
       :style="{ backgroundPosition: `${percentX}% ${percentY}%` }"
       v-if="!$route.name"
     >
-    <!-- 卡片导航区 -->
+      <!-- 卡片导航区 -->
       <div class="welcome">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
@@ -26,7 +26,7 @@
         </el-card>
       </div>
     </div>
-    
+
     <!-- 回到顶部按钮 -->
     <el-backtop :bottom="100">
       <div
@@ -51,6 +51,7 @@
 
 <script>
 export default {
+  name: "IndexPage",
   data() {
     return {
       headerWidth: 0,
@@ -58,34 +59,34 @@ export default {
       percentY: 50,
       links: [
         {
-          title: '首页',
-          routerName: 'index',
-          path: '/',
+          title: "首页",
+          routerName: "index",
+          path: "/",
         },
         {
-          title: '文章归档',
-          routerName: 'articleList',
-          path: '/articleList',
+          title: "文章归档",
+          routerName: "articleList",
+          path: "/articleList",
         },
         {
-          title: '灵光小记',
-          routerName: 'moment',
-          path: '/moment',
+          title: "灵光小记",
+          routerName: "moment",
+          path: "/moment",
         },
         {
-          title: '我的生活',
-          routerName: 'record',
-          path: '/record',
+          title: "我的生活",
+          routerName: "record",
+          path: "/record",
         },
         {
-          title: '个人简历',
-          routerName: 'intro',
-          path: '/intro',
+          title: "个人简历",
+          routerName: "intro",
+          path: "/intro",
         },
         {
-          title: '关于本站',
-          routerName: 'about',
-          path: '/about',
+          title: "关于本站",
+          routerName: "about",
+          path: "/about",
         },
       ],
     };
@@ -96,15 +97,15 @@ export default {
       this.percentX = 45 + (10 * e.pageX) / document.body.clientWidth;
       this.percentY = 45 + (10 * e.pageY) / document.body.clientHeight;
     },
-    test(){
-      console.log('test');
-      this.$router.push({name:'test'})
-    }
+    test() {
+      console.log("test");
+      this.$router.push({ name: "test" });
+    },
   },
   mounted() {
     // document.body.addEventListener('click', ()=>console.log(this.$route))
     // this.$router.push({name: 'about'})
-    this.$bus.$on('test', this.test)
+    this.$bus.$on("test", this.test);
   },
 };
 </script>
@@ -117,18 +118,18 @@ export default {
   display: flex;
   width: 100vw;
   height: 100vh;
-  background: url(../assets/indexImg.jpg) no-repeat 50% 50%/1920px 1080px;
+  background: url(@/assets/indexImg.jpg) no-repeat 50% 50%/1920px 1080px;
   .welcome {
     margin: auto;
     text-align: center;
     .welText {
       padding-bottom: 20px;
-      font-family: 'Helvetica';
+      font-family: "Helvetica";
     }
     .cardTitle {
       font-size: 40px;
       font-weight: 600;
-      font-family: 'Helvetica';
+      font-family: "Helvetica";
     }
     .text {
       font-size: 14px;
@@ -141,7 +142,7 @@ export default {
     .clearfix:before,
     .clearfix:after {
       display: table;
-      content: '';
+      content: "";
     }
     .clearfix:after {
       clear: both;

@@ -4,7 +4,12 @@
       <page-header :title="'Moments'"></page-header>
       <!-- 发布区&搜索区 -->
       <div class="publishBox">
-        <el-input type="textarea" :autosize="{ minRows: 4, maxRows: 10 }" placeholder="请输入内容" v-model="textarea">
+        <el-input
+          type="textarea"
+          :autosize="{ minRows: 4, maxRows: 10 }"
+          placeholder="请输入内容"
+          v-model="textarea"
+        >
         </el-input>
         <div class="btnBox">
           <el-button size="small" icon="el-icon-search" round>搜索</el-button>
@@ -14,13 +19,25 @@
       <!-- 查看区 -->
       <div class="momentsBox">
         <div class="leftBox columnBox" ref="left">
-          <moment-card v-for="moment in leftMomentList" :key="moment.id" :moment="moment"></moment-card>
+          <moment-card
+            v-for="moment in leftMomentList"
+            :key="moment.id"
+            :moment="moment"
+          ></moment-card>
         </div>
         <div class="midBox columnBox" ref="mid">
-          <moment-card v-for="moment in midMomentList" :key="moment.id" :moment="moment"></moment-card>
+          <moment-card
+            v-for="moment in midMomentList"
+            :key="moment.id"
+            :moment="moment"
+          ></moment-card>
         </div>
         <div class="rightBox columnBox" ref="right">
-          <moment-card v-for="moment in rightMomentList" :key="moment.id" :moment="moment"></moment-card>
+          <moment-card
+            v-for="moment in rightMomentList"
+            :key="moment.id"
+            :moment="moment"
+          ></moment-card>
         </div>
       </div>
     </div>
@@ -28,13 +45,16 @@
 </template>
 
 <script>
-import PageHeader from '@/components/publicComponents/PageHeader.vue';
-import MomentCard from '@/components/momentComponents/MomentCard.vue';
+import PageHeader from "@/components/PageHeader.vue";
+import MomentCard from "./components/MomentCard.vue";
+import { getMoments } from "@/api/moments";
+import utils from "@/utils";
 export default {
+  name: "MomentPage",
   components: { PageHeader, MomentCard },
   data() {
     return {
-      textarea: '',
+      textarea: "",
       momentListGetted: [],
       leftMomentList: [],
       midMomentList: [],
@@ -42,7 +62,6 @@ export default {
       limit: 10,
       currPage: 1,
       renderIndex: -1,
-      // theThreeList:[this.$refs.left]
     };
   },
   computed: {
@@ -55,36 +74,39 @@ export default {
       //每当接收到新数据，把渲染序号重置为0
       this.renderIndex = 0;
     },
+
+    /* 渲染单张瀑布流卡片 */
     renderIndex(val) {
       if (!this.momentListGetted) return;
-      //此时渲染完毕
-      if (this.renderIndex >= this.momentListGetted.length) return;
-
+      if (this.renderIndex >= this.momentListGetted.length) return; // 此时渲染完毕
       // 获得最短的列的索引
-      let index = this.$utils.returnMinIndex([
+      let index = utils.returnMinIndex([
         this.$refs.left.clientHeight,
         this.$refs.mid.clientHeight,
         this.$refs.right.clientHeight,
       ]);
       // 将data push到最短的列里面
-      [this.leftMomentList, this.midMomentList, this.rightMomentList][index].push(
-        this.momentListGetted[this.renderIndex]
-      );
+      [this.leftMomentList, this.midMomentList, this.rightMomentList][
+        index
+      ].push(this.momentListGetted[this.renderIndex]);
     },
   },
   mounted() {
-    this.$axios({
-      url: '/moments',
-      params: { limit: this.limit, offset: this.currOffset },
-    }).then(({ data }) => {
-      // console.log(data);
-      this.momentListGetted = data.data;
-    });
+    this.getMoments();
   },
   updated() {
-    // console.log([this.$refs.left.clientHeight, this.$refs.mid.clientHeight, this.$refs.right.clientHeight]);
     //一次渲染一条数据，增加索引，直到最大索引
+    // 思考是否有一次渲染所有卡片的方法？
     if (this.renderIndex < this.momentListGetted.length) this.renderIndex++;
+  },
+  methods: {
+    async getMoments() {
+      const res = await getMoments({
+        offset: this.currOffset,
+        limit: this.limit,
+      });
+      this.momentListGetted = res;
+    },
   },
 };
 </script>

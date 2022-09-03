@@ -5,7 +5,12 @@
       <!-- 发布区&搜索区 -->
       <div class="pubArea">
         <div class="publishBox">
-          <el-input type="textarea" :autosize="{ minRows: 4, maxRows: 10 }" placeholder="请输入内容" v-model="textarea">
+          <el-input
+            type="textarea"
+            :autosize="{ minRows: 4, maxRows: 10 }"
+            placeholder="请输入内容"
+            v-model="textarea"
+          >
           </el-input>
         </div>
         <div class="btnBox">
@@ -18,12 +23,13 @@
 </template>
 
 <script>
-import PageHeader from '@/components/publicComponents/PageHeader.vue';
+import PageHeader from "@/components/PageHeader.vue";
 export default {
+  name: "RecordIndex",
   components: { PageHeader },
   data() {
     return {
-      textarea: '',
+      textarea: "",
     };
   },
 };
@@ -41,7 +47,7 @@ export default {
         margin: 20px 0;
         display: flex;
         justify-content: end;
-        button{
+        button {
           margin-left: 20px;
         }
         .el-button:focus,

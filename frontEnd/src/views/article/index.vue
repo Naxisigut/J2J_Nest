@@ -4,7 +4,7 @@
       <div class="pageContainer">
         <page-header :title="'Article'"></page-header>
         <!-- 文章标题区 -->
-        <h1 class="artTitle">{{title}}</h1>
+        <h1 class="artTitle">{{ title }}</h1>
         <!-- md预览区 -->
         <div class="md-Pre">
           <template>
@@ -17,39 +17,34 @@
 </template>
 
 <script>
-import PageHeader from '@/components/publicComponents/PageHeader.vue';
-
+import PageHeader from "@/components/PageHeader.vue";
+import { getArtPathAPI, getArtMdAPI } from "@/api/article";
 export default {
+  name: "articleView",
   components: { PageHeader },
   data() {
     return {
-      markdown: '',
-      articleId:this.$route.query.articleId,
-      title:''
+      markdown: "",
+      articleId: this.$route.query.articleId,
+      title: "",
     };
   },
   created() {
-    //根据文章id发送请求，返回一个静态资源的路径
-    this.$axios({
-      url: '/article',
-      params:{
-        articleId:this.articleId
+    this.getArt();
+  },
+  methods: {
+    /* 根据文章ID获得文章 */
+    async getArt() {
+      try {
+        const res = await getArtPathAPI(this.articleId);
+        this.title = res.title;
+        const path = "assets/" + res.file.split("assets/")[1];
+        const md = await getArtMdAPI(path);
+        this.markdown = md;
+      } catch (error) {
+        console.log("error =", error);
       }
-    })
-      .then(({ data }) => {
-        //请求资源地址
-        this.title = data.data.title
-        return 'assets/' + data.data.file.split('assets/')[1];
-      })
-      .then((path) => {
-        //根据上次请求返回的路径请求资源
-        return this.$axios({
-          url: path,
-        });
-      })
-      .then(({data})=>{
-        this.markdown = data
-      });
+    },
   },
 };
 </script>

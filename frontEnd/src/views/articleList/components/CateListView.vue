@@ -2,7 +2,12 @@
   <div class="cateListView">
     <cate-display :cateList="cateList"></cate-display>
     <ul class="articleDisplay">
-      <li class="artCard" v-for="art in artList" :key="art.id" @click="$bus.$emit('intoArticle', art.id)">
+      <li
+        class="artCard"
+        v-for="art in artList"
+        :key="art.id"
+        @click="$bus.$emit('intoArticle', art.id)"
+      >
         <div class="imgBox">
           <div class="innerImg">{{ art.title[0] }}</div>
         </div>
@@ -13,50 +18,51 @@
 </template>
 
 <script>
-import CateDisplay from './CateDisplay.vue';
+import CateDisplay from "./CateDisplay.vue";
+import { baseURL } from "@/constant";
 export default {
   data() {
     return {
       cateList: [
         {
-          name: 'JS',
-          discription: '前端语言JavaScript',
-          imgPath: this.$baseURL + '/assets/image/cateList/js.png',
+          name: "JS",
+          discription: "前端语言JavaScript",
+          imgPath: baseURL + "/assets/image/cateList/js.png",
         },
         {
-          name: 'Vue',
-          discription: '渐进式JavaScript框架',
-          imgPath: this.$baseURL + '/assets/image/cateList/vue.png',
+          name: "Vue",
+          discription: "渐进式JavaScript框架",
+          imgPath: baseURL + "/assets/image/cateList/vue.png",
         },
         {
-          name: 'CSS',
-          discription: '布局，动画和美',
-          imgPath: this.$baseURL + '/assets/image/cateList/css.png',
+          name: "CSS",
+          discription: "布局，动画和美",
+          imgPath: baseURL + "/assets/image/cateList/css.png",
         },
         {
-          name: 'LeetCode',
-          discription: '刷刷刷',
-          imgPath: this.$baseURL + '/assets/image/cateList/leetcode.png',
+          name: "LeetCode",
+          discription: "刷刷刷",
+          imgPath: baseURL + "/assets/image/cateList/leetcode.png",
         },
         {
-          name: 'Notes',
-          discription: '自学笔记',
-          imgPath: this.$baseURL + '/assets/image/cateList/note.jpeg',
+          name: "Notes",
+          discription: "自学笔记",
+          imgPath: baseURL + "/assets/image/cateList/note.jpeg",
         },
         {
-          name: 'Tools',
-          discription: '软件使用Tricks&Tips',
-          imgPath: this.$baseURL + '/assets/image/cateList/tools.webp',
+          name: "Tools",
+          discription: "软件使用Tricks&Tips",
+          imgPath: baseURL + "/assets/image/cateList/tools.webp",
         },
         {
-          name: 'Other',
-          discription: '其它',
-          imgPath: this.$baseURL + '/assets/image/cateList/other.jpeg',
+          name: "Other",
+          discription: "其它",
+          imgPath: baseURL + "/assets/image/cateList/other.jpeg",
         },
       ],
     };
   },
-  props: ['artList'],
+  props: ["artList"],
   components: { CateDisplay },
 };
 </script>
@@ -73,7 +79,8 @@ export default {
       margin-bottom: 20px;
       border-radius: 20px;
       transition: 0.2s all ease-in-out;
-      box-shadow: 7px 7px 12px rgba(0, 0, 0, 0.4), -7px -7px 12px rgba(255, 255, 255, 0.9);
+      box-shadow: 7px 7px 12px rgba(0, 0, 0, 0.4),
+        -7px -7px 12px rgba(255, 255, 255, 0.9);
       .imgBox {
         width: 100px;
         // margin-right: 20px;
