@@ -38,11 +38,11 @@ export default {
           routerName: "moment",
           path: "/moment",
         },
-        {
-          title: "我的生活",
-          routerName: "record",
-          path: "/record",
-        },
+        // {
+        //   title: "我的生活",
+        //   routerName: "record",
+        //   path: "/record",
+        // },
         {
           title: "个人简历",
           routerName: "intro",
